@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#E9E3D7" />
+  <title>A Reservoir of Lost Art — Jack Barone</title>
+  <meta name="description" content="A Reservoir of Lost Art — a poem by Jack Barone. A Sidewalk Studios project." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="../styles.css" />
+</head>
+<body class="reader">
+  <svg class="svg-defs" width="0" height="0" aria-hidden="true" focusable="false">
+    <filter id="ink" x="-4%" y="-4%" width="108%" height="108%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.92 0.98" numOctaves="2" seed="7" stitchTiles="stitch" result="n" />
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="3.1" xChannelSelector="R" yChannelSelector="G" />
+    </filter>
+    <filter id="ink-soft" x="-4%" y="-4%" width="108%" height="108%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="1.15 1.2" numOctaves="1" seed="4" stitchTiles="stitch" result="n" />
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="1.15" xChannelSelector="R" yChannelSelector="G" />
+    </filter>
+  </svg>
+
+  <div class="grain" aria-hidden="true"></div>
+
+  <main class="reader__wrap">
+    <a class="reader__back" href="../index.html#words" data-back aria-label="Back to Words">
+      <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7" /></svg>
+      Words
+    </a>
+
+    <header class="reader__head">
+      <p class="reader__kicker"><b>02</b> Poem</p>
+      <h1 class="reader__title">A Reservoir of Lost Art</h1>
+    </header>
+
+    <div class="reader__piece">
+      <figure class="poem">
+        <blockquote>
+          <p>It&rsquo;s raining on all the books and magazines<br />
+          It seems no one reads<br />
+          Scrolling through an endless feed<br />
+          Of people they&rsquo;ll never meet</p>
+          <p>Fake asses<br />
+          Fake lips<br />
+          Fake trips<br />
+          Fake fun<br />
+          Life blowing them by in a blip<br />
+          Until<br />
+          One day<br />
+          They crap up and die<br />
+          Having lived<br />
+          A fake life</p>
+          <p>It&rsquo;s raining on all the books and magazines<br />
+          The text begins to drip and bleed<br />
+          A deep puddle of thick black ink<br />
+          Incoherent<br />
+          Indecipherable<br />
+          A reservoir of lost art</p>
+        </blockquote>
+      </figure>
+    </div>
+
+    <footer class="reader__foot">
+      <a class="reader__back" href="../index.html#words" data-back>
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7" /></svg>
+        Back to Words
+      </a>
+      <span class="reader__sign">Jack Barone · Sidewalk Studios</span>
+    </footer>
+  </main>
+
+  <script src="reader.js"></script>
+</body>
+</html>

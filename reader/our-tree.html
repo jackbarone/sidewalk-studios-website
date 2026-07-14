@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#E9E3D7" />
+  <title>Our Tree — Jack Barone</title>
+  <meta name="description" content="Our Tree — a poem by Jack Barone. A Sidewalk Studios project." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="../styles.css" />
+</head>
+<body class="reader">
+  <!-- Same letterpress ink-bite filters as the main book -->
+  <svg class="svg-defs" width="0" height="0" aria-hidden="true" focusable="false">
+    <filter id="ink" x="-4%" y="-4%" width="108%" height="108%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.92 0.98" numOctaves="2" seed="7" stitchTiles="stitch" result="n" />
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="3.1" xChannelSelector="R" yChannelSelector="G" />
+    </filter>
+    <filter id="ink-soft" x="-4%" y="-4%" width="108%" height="108%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="1.15 1.2" numOctaves="1" seed="4" stitchTiles="stitch" result="n" />
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="1.15" xChannelSelector="R" yChannelSelector="G" />
+    </filter>
+  </svg>
+
+  <div class="grain" aria-hidden="true"></div>
+
+  <main class="reader__wrap">
+    <a class="reader__back" href="../index.html#words" data-back aria-label="Back to Words">
+      <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7" /></svg>
+      Words
+    </a>
+
+    <header class="reader__head">
+      <p class="reader__kicker"><b>01</b> Poem</p>
+      <h1 class="reader__title">Our Tree</h1>
+    </header>
+
+    <div class="reader__piece">
+      <figure class="poem">
+        <blockquote>
+          <p>Six years ago I&rsquo;d walk outside to a tree<br />
+          Just barely tall enough to ride a rollercoaster<br />
+          I greeted him every morning<br />
+          And he back to me</p>
+          <p>On Saturday, my mum would water him<br />
+          Her tattered straw hat deteriorating in the wind<br />
+          As the days went by he didn&rsquo;t seem to be growing<br />
+          But the small increments were blinded by frequency</p>
+          <p>Soon he was taller than me<br />
+          We&rsquo;d relax in his shade<br />
+          The cat scratching at his trunk<br />
+          The dog chewing a cardboard box</p>
+          <p>Three years later he was taller than the house<br />
+          Wider than my two siblings and I combined<br />
+          And grew a pineapple-shaped ring at his crown<br />
+          Which soon became home to families of sparrows</p>
+          <p>They loved the tree and so did we<br />
+          They played and grew under his fronds<br />
+          Just as we did<br />
+          A few feet below</p>
+          <p>On Sunday morning my mum would cook eggs<br />
+          And with a new straw hat she&rsquo;d water the plants<br />
+          As we sat and ate under the symphony of sparrows<br />
+          Talking about how much better tangerine juice is than orange</p>
+          <p>That next year I went off to college<br />
+          I said goodbye to my mum<br />
+          I said goodbye to the birds<br />
+          And I said goodbye to the tree</p>
+          <p>My new home didn&rsquo;t have a straw hat<br />
+          Didn&rsquo;t have a hyper dog or a cocky cat<br />
+          And sure, it had birds<br />
+          But they didn&rsquo;t sing the song of our tree</p>
+          <p>I returned from college chubbier than when I left<br />
+          The tree laughed and I did too<br />
+          It seemed as I got larger so did he<br />
+          And it was nice feeling known</p>
+          <p>One Sunday breakfast<br />
+          The tangerine juice turned sour<br />
+          The cardboard box was left untouched<br />
+          And the birds sang out of key</p>
+          <p>The tree&rsquo;s arms had begun to brown and wilt<br />
+          And with each new day a new degree down<br />
+          We tried method after method to cure him<br />
+          But nothing seemed to work</p>
+          <p>Our tree<br />
+          Our friend<br />
+          Our guardian<br />
+          Diseased<br />
+          Had begun to die</p>
+          <p>He said there was no use in crying<br />
+          All things must die and so must I<br />
+          And yes he was young<br />
+          But this was always his fate</p>
+          <p>An arborist came and we said goodbye<br />
+          He smiled like he always did<br />
+          And shortly after he was cut down<br />
+          Returned to the earth</p>
+          <p>The birds flew confused looking for their home<br />
+          The song of panic replaced the song of joy<br />
+          The cat&rsquo;s nails grew so he used the couch<br />
+          And the view outside felt empty without him</p>
+          <p>But that next week<br />
+          On Sunday morning<br />
+          The tangerine juice turned sweet again<br />
+          And I smiled<br />
+          Knowing he was<br />
+          Too</p>
+        </blockquote>
+      </figure>
+    </div>
+
+    <footer class="reader__foot">
+      <a class="reader__back" href="../index.html#words" data-back>
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7" /></svg>
+        Back to Words
+      </a>
+      <span class="reader__sign">Jack Barone · Sidewalk Studios</span>
+    </footer>
+  </main>
+
+  <script src="reader.js"></script>
+</body>
+</html>

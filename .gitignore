@@ -1,0 +1,13 @@
+# macOS
+.DS_Store
+**/.DS_Store
+
+# Local backups
+_backup-*/
+
+# Editors
+.vscode/
+.idea/
+
+# Logs
+*.log
