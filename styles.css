@@ -673,12 +673,12 @@ kbd {
 .workrow--soon:hover::before { width: 0; }
 
 /* Marquee */
-.marquee { margin-top: clamp(2.6rem, 5vw, 3.6rem); overflow: hidden; border-block: 1px solid var(--line); padding: .7rem 0; }
+.marquee { margin-top: clamp(2rem, 4vw, 2.8rem); overflow: hidden; border-block: 1px solid var(--line); padding: .46rem 0; }
 .marquee__track {
-  display: inline-flex; align-items: center; gap: 1.6rem; white-space: nowrap;
+  display: inline-flex; align-items: center; gap: 1.05rem; white-space: nowrap;
   font-family: var(--font-display); font-weight: 500;
-  font-size: clamp(.92rem, 1.9vw, 1.35rem); letter-spacing: 0;
-  will-change: transform; animation: scrollX 30s linear infinite;
+  font-size: clamp(.68rem, 1.2vw, .9rem); letter-spacing: .01em;
+  will-change: transform; animation: scrollX 34s linear infinite;
 }
 .marquee:hover .marquee__track { animation-play-state: paused; }
 .marquee__track span:nth-child(even) { color: var(--accent); font-size: .8em; }
@@ -870,16 +870,26 @@ kbd {
 }
 .book__page--left  { border-radius: 4px 1px 1px 4px; background-position: left center;  padding-right: clamp(2.4rem, 5vw, 4rem); }
 .book__page--right { border-radius: 1px 4px 4px 1px; background-position: right center; padding-left:  clamp(2.4rem, 5vw, 4rem); }
-/* clean pages — an even, colourless edge-shade from age & handling (no foxing) */
+/* aged leaves — a warm edge-shade with subtle foxing clustered at the corners & edges,
+   left clean through the centre where the text sits (as in the reference) */
 .book__page::after {
   content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
   mix-blend-mode: multiply;
-  background: radial-gradient(100% 116% at 50% 50%, rgba(0,0,0,0) 74%, rgba(46,34,20,.12) 100%);
+  background:
+    radial-gradient(122% 132% at 50% 46%, rgba(0,0,0,0) 62%, rgba(58,42,22,.17) 100%),
+    radial-gradient(10px 7px at 13% 12%,  rgba(122,88,48,.20), rgba(0,0,0,0) 68%),
+    radial-gradient(7px 5px  at 22% 7%,   rgba(122,88,48,.15), rgba(0,0,0,0) 68%),
+    radial-gradient(6px 5px  at 8% 34%,   rgba(122,88,48,.12), rgba(0,0,0,0) 68%),
+    radial-gradient(11px 7px at 87% 15%,  rgba(122,88,48,.18), rgba(0,0,0,0) 68%),
+    radial-gradient(7px 5px  at 93% 40%,  rgba(122,88,48,.13), rgba(0,0,0,0) 68%),
+    radial-gradient(10px 7px at 15% 88%,  rgba(122,88,48,.18), rgba(0,0,0,0) 68%),
+    radial-gradient(8px 6px  at 86% 90%,  rgba(122,88,48,.17), rgba(0,0,0,0) 68%),
+    radial-gradient(6px 5px  at 50% 95%,  rgba(122,88,48,.12), rgba(0,0,0,0) 68%);
 }
-/* the valley of shadow toward the central gutter */
-.book__page::before { content: ""; position: absolute; top: 0; bottom: 0; z-index: 1; width: 22%; pointer-events: none; }
-.book__page--left::before  { right: 0; background: linear-gradient(to right, rgba(38,26,14,0), rgba(38,26,14,.34)); }
-.book__page--right::before { left: 0;  background: linear-gradient(to left,  rgba(38,26,14,0), rgba(38,26,14,.34)); }
+/* the valley of shadow toward the central gutter — deeper so the spread reads as one book */
+.book__page::before { content: ""; position: absolute; top: 0; bottom: 0; z-index: 1; width: 26%; pointer-events: none; }
+.book__page--left::before  { right: 0; background: linear-gradient(to right, rgba(38,26,14,0), rgba(38,26,14,.42)); }
+.book__page--right::before { left: 0;  background: linear-gradient(to left,  rgba(38,26,14,0), rgba(38,26,14,.42)); }
 .book__inner { position: relative; z-index: 2; }
 /* the sewn spine down the middle */
 .book__spine {
@@ -900,6 +910,10 @@ kbd {
   font-family: var(--font-serif); font-size: clamp(1.12rem, 1.5vw, 1.34rem);
   line-height: 1.66; color: var(--ink);
 }
+/* the Novel leaf fills its height so the bookplate button settles low on the page */
+.book__page--left { display: flex; }
+.book__inner--novel { display: flex; flex-direction: column; flex: 1 1 auto; }
+.novel__cta { margin: auto 0 0; padding-top: clamp(1.6rem, 5vw, 2.6rem); }
 /* inline "bookplate" button set into the sentence */
 .inkbtn {
   display: inline-flex; align-items: center; gap: .5em;
@@ -989,8 +1003,14 @@ kbd {
   content: ""; position: absolute; inset: 0; z-index: 0; border-radius: 3px; pointer-events: none;
   mix-blend-mode: multiply;
   background:
-    radial-gradient(58% 30% at 82% 10%, rgba(96,72,40,.10), rgba(0,0,0,0) 62%),
-    radial-gradient(46% 26% at 14% 90%, rgba(96,72,40,.10), rgba(0,0,0,0) 62%);
+    radial-gradient(120% 130% at 50% 48%, rgba(0,0,0,0) 66%, rgba(58,42,22,.14) 100%),
+    radial-gradient(11px 7px at 87% 8%,  rgba(122,88,48,.16), rgba(0,0,0,0) 68%),
+    radial-gradient(8px 6px  at 92% 30%, rgba(122,88,48,.12), rgba(0,0,0,0) 68%),
+    radial-gradient(7px 5px  at 90% 62%, rgba(122,88,48,.10), rgba(0,0,0,0) 68%),
+    radial-gradient(10px 7px at 12% 92%, rgba(122,88,48,.15), rgba(0,0,0,0) 68%),
+    radial-gradient(7px 5px  at 8% 64%,  rgba(122,88,48,.12), rgba(0,0,0,0) 68%),
+    radial-gradient(6px 5px  at 9% 22%,  rgba(122,88,48,.11), rgba(0,0,0,0) 68%),
+    radial-gradient(6px 5px  at 78% 94%, rgba(122,88,48,.12), rgba(0,0,0,0) 68%);
 }
 .reader__back {
   display: inline-flex; align-items: center; gap: .55rem; min-height: 44px;
@@ -1145,6 +1165,11 @@ kbd {
    ============================================================ */
 .reveal { opacity: 0; transform: translateY(22px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
 .reveal.is-visible { opacity: 1; transform: none; }
+/* No-JS / JS-blocked fallback: content must never load blank.
+   The inline <head> script swaps .no-js → .js before paint, so these
+   only apply when scripting is unavailable. */
+.no-js .reveal { opacity: 1; transform: none; }
+.no-js .intro  { display: none; }
 .reveal:nth-child(2) { transition-delay: .06s; }
 .reveal:nth-child(3) { transition-delay: .12s; }
 .reveal:nth-child(4) { transition-delay: .18s; }
@@ -1172,7 +1197,8 @@ kbd {
 
 /* Open book folds to a single stacked column on narrow screens */
 @media (max-width: 760px) {
-  .book__spread { grid-template-columns: 1fr; }
+  .book__block { grid-template-columns: 1fr; }
+  .book__page--left { display: block; }
   .book__spine { display: none; }
   .book__page { min-height: auto; }
   .book__page--left,
