@@ -385,6 +385,7 @@ kbd {
 .contact__title,
 .feature__title,
 .workrow__title,
+.cv__role,
 .product__title,
 .marquee__track,
 .reader__title,
@@ -409,6 +410,7 @@ kbd {
 .studio__bio, .services__k, .services__v,
 .product__eyebrow, .product__artist, .product__spec, .product__price, .product__badge, .product__tracks, .btn-buy,
 .contact__email, .contact__sub, .contact__label, .contact__k, .contact__note, .sociallist a, .signup__msg,
+.cv__period, .cv__place, .cv__org, .cv__org-note, .cv__tag, .cv__points li, .science__cap, .science__note,
 .colophon, .vlabel, .frame__tag {
   filter: url(#ink-soft);
 }
@@ -557,6 +559,15 @@ kbd {
 .thread--con { right: clamp(1rem, 6vw, 4rem); top: 8%; height: 72%; width: 36px; }
 .sq--con1 { left: clamp(1.5rem, 6vw, 4rem); top: 18%; }
 .sq--con2 { right: clamp(6rem, 16vw, 12rem); bottom: 22%; }
+
+.thread--biz { left: clamp(1rem, 5vw, 3.4rem); top: 9%; height: 82%; width: 40px; }
+.sq--biz1 { right: clamp(1.5rem, 7vw, 5rem); top: 15%; }
+.sq--biz2 { right: clamp(4rem, 13vw, 9rem); bottom: 14%; }
+.techline--biz { right: clamp(2.5rem, 9vw, 6rem); top: 26%; height: clamp(5rem, 13vh, 9.5rem); }
+
+.sq--sci1 { right: clamp(1.5rem, 6vw, 4rem); top: 15%; }
+.sq--sci2 { left: clamp(1.5rem, 6vw, 4rem); bottom: 17%; }
+.techline--sci { left: clamp(2.5rem, 8vw, 6rem); top: 24%; height: clamp(5rem, 13vh, 9rem); }
 
 /* keep the scattered squares/lines from crowding narrow screens (threads stay) */
 @media (max-width: 768px) { .deco { display: none !important; } }
@@ -1096,6 +1107,7 @@ kbd {
 .studio__portrait { max-width: 430px; }
 .studio__portrait .frame { width: 100%; }
 .studio__portrait .frame--round { outline: 1px solid color-mix(in srgb, var(--accent) 45%, transparent); outline-offset: 12px; }
+.studio__reel { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
 .studio__bio { font-size: clamp(1.05rem, 1.7vw, 1.3rem); line-height: 1.6; max-width: 48ch; }
 .services { margin-top: 2rem; border-top: 1px solid var(--line); }
 .services li {
@@ -1104,6 +1116,89 @@ kbd {
 }
 .services__k { font-family: var(--font-mono); font-size: .72rem; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); }
 .services__v { font-size: 1rem; }
+
+/* ============================================================
+   06 · BUSINESS  +  08 · SCIENCE  —  shared CV / dossier
+   ============================================================ */
+.cv { border-top: 1px solid var(--line); }
+.cv__row {
+  display: grid;
+  grid-template-columns: minmax(8rem, 11rem) minmax(0, 1fr);
+  gap: clamp(1rem, 4vw, 3rem);
+  padding: clamp(1.7rem, 3.2vw, 2.6rem) .4rem;
+  border-bottom: 1px solid var(--line);
+}
+.cv__meta { display: flex; flex-direction: column; gap: .5rem; }
+.cv__period {
+  display: inline-flex; align-items: center; gap: .6rem;
+  font-family: var(--font-mono); font-size: .82rem; letter-spacing: .01em; color: var(--fg);
+}
+.cv__period::before { content: ""; width: 10px; height: 10px; background: var(--accent-bright); flex: none; }
+.cv__place {
+  padding-left: 1.6rem;
+  font-family: var(--font-mono); font-size: .66rem; letter-spacing: .2em;
+  text-transform: uppercase; color: var(--muted);
+}
+.cv__role {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: .3rem .7rem;
+  font-family: var(--font-display); font-weight: 500;
+  font-size: clamp(1.15rem, 2.1vw, 1.6rem); line-height: 1.14; letter-spacing: -.02em;
+}
+.cv__tag {
+  font-family: var(--font-serif); font-style: italic; font-weight: 500;
+  font-size: .72em; letter-spacing: .01em; text-transform: none; color: var(--accent);
+}
+.cv__org {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: .3rem .7rem;
+  margin-top: .55rem;
+  font-family: var(--font-mono); font-size: .72rem; letter-spacing: .2em;
+  text-transform: uppercase; color: var(--accent);
+}
+.cv__org-note {
+  font-family: var(--font-serif); font-style: italic; font-size: 1.02rem;
+  letter-spacing: .01em; text-transform: none; color: var(--muted);
+}
+.cv__points {
+  margin-top: 1.05rem; max-width: 64ch;
+  display: flex; flex-direction: column; gap: .65rem;
+}
+.cv__points li {
+  position: relative; padding-left: 1.25rem;
+  font-family: var(--font-serif); font-size: clamp(1rem, 1.5vw, 1.14rem);
+  line-height: 1.5; color: var(--fg);
+}
+.cv__points li::before {
+  content: ""; position: absolute; left: 0; top: .62em;
+  width: 6px; height: 6px; background: var(--accent); opacity: .85;
+}
+.cv__points em { font-style: italic; }
+
+/* Science media strip — a left-aligned contact sheet of placeholder frames */
+.science {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 224px));
+  justify-content: start; gap: clamp(.7rem, 2vw, 1.3rem);
+  margin-bottom: clamp(2.4rem, 5vw, 3.8rem);
+}
+.science__shot { margin: 0; }
+.science__shot .frame { width: 100%; }
+.science__shot .frame img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.science__shot .frame__tag {
+  position: absolute; left: .5rem; bottom: .5rem; z-index: 2;
+  background: color-mix(in srgb, var(--bg) 72%, transparent);
+}
+.science__cap {
+  margin-top: .7rem;
+  font-family: var(--font-mono); font-size: .64rem; letter-spacing: .18em;
+  text-transform: uppercase; color: var(--muted);
+}
+.cv--science { margin-top: 0; }
+.science__note {
+  display: flex; gap: .85rem; align-items: flex-start; max-width: 72ch;
+  margin-top: clamp(1.8rem, 4vw, 2.8rem);
+  font-family: var(--font-mono); font-size: .72rem; letter-spacing: .03em;
+  line-height: 1.65; color: var(--muted);
+}
+.science__note::before { content: ""; width: 8px; height: 8px; background: var(--accent-bright); flex: none; margin-top: .5em; }
 
 /* ============================================================
    07 · CONTACT
@@ -1218,6 +1313,10 @@ kbd {
   .workrow__arrow { display: none; }
 
   .worklist--poems .workrow { grid-template-columns: 3.2rem 1fr; grid-template-areas: "year title"; }
+
+  .cv__row { grid-template-columns: 1fr; gap: .7rem; }
+  .science { grid-template-columns: repeat(3, 1fr); gap: .55rem; }
+  .science__cap { font-size: .58rem; letter-spacing: .12em; }
 
   .gallery { grid-template-columns: 1fr; }
   .shot, .shot--half, .shot--feature { grid-column: 1 / -1; aspect-ratio: 3 / 2; }

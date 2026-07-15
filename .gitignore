@@ -11,3 +11,12 @@ _backup-*/
 
 # Logs
 *.log
+
+# Claude Code local config
+.claude/
+
+# Private source material — NEVER publish
+*Resume*.png
+
+# Large / unused source media (site ships the optimized MP4)
+*.mov
