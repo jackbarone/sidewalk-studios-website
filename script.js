@@ -54,30 +54,6 @@
     reveals.forEach(function (el) { ro.observe(el); });
   }
 
-  /* ---------- Chapter scroll-spy ---------- */
-  var chapters = $$(".chapter");
-  var indexItems = $$(".index__item");
-  var topbarNow = $("#topbarNow");
-  function setActive(id, num, name) {
-    indexItems.forEach(function (a) {
-      a.classList.toggle("is-active", a.getAttribute("href") === "#" + id);
-    });
-    if (topbarNow && num != null) topbarNow.textContent = num + " — " + name;
-    if (document.body.getAttribute("data-chapter") !== id) {
-      document.body.setAttribute("data-chapter", id);
-    }
-  }
-  if ("IntersectionObserver" in window && chapters.length) {
-    var spy = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (e.isIntersecting) {
-          setActive(e.target.id, e.target.dataset.num, e.target.dataset.name);
-        }
-      });
-    }, { rootMargin: "-48% 0px -48% 0px", threshold: 0 });
-    chapters.forEach(function (c) { spy.observe(c); });
-  }
-
   /* ---------- Rotating roles ---------- */
   (function rotator() {
     var el = $("#rotator");
@@ -118,24 +94,49 @@
     });
   })();
 
-  /* ---------- Keyboard chapter navigation (→ / ← / J / K) ---------- */
+  /* ---------- Keyboard page navigation (→ / ← / J / K) ----------
+     Each chapter is its own page now, so the keys follow the pager's
+     previous/next links instead of scrolling between sections. */
   (function keys() {
-    if (!chapters.length) return;
-    function currentIndex() {
-      var mid = window.scrollY + window.innerHeight / 2, idx = 0;
-      chapters.forEach(function (c, n) { if (c.offsetTop <= mid) idx = n; });
-      return idx;
-    }
-    function go(dir) {
-      var next = Math.min(chapters.length - 1, Math.max(0, currentIndex() + dir));
-      chapters[next].scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth" });
-    }
+    var prev = $('[data-pager="prev"]'), next = $('[data-pager="next"]');
+    if (!prev && !next) return;
     document.addEventListener("keydown", function (e) {
       var t = e.target;
+      if (e.metaKey || e.ctrlKey || e.altKey) return;   // leave browser shortcuts (⌘← = back) alone
       if (t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA" || t.isContentEditable)) return;
       if ($("#lightbox") && $("#lightbox").classList.contains("is-open")) return;
-      if (e.key === "ArrowRight" || e.key === "j" || e.key === "J") { e.preventDefault(); go(1); }
-      else if (e.key === "ArrowLeft" || e.key === "k" || e.key === "K") { e.preventDefault(); go(-1); }
+      if (next && (e.key === "ArrowRight" || e.key === "j" || e.key === "J")) window.location.href = next.href;
+      else if (prev && (e.key === "ArrowLeft" || e.key === "k" || e.key === "K")) window.location.href = prev.href;
+    });
+  })();
+
+  /* ---------- Studio reel: hover, Space, or tap to stop on a photo ----------
+     The reel is hard cuts (a new photo every ~0.1s, no crossfades), so pausing
+     at any moment freezes on one clean picture. Hover pauses only while the
+     pointer is over it; Space (and a tap on touch screens) holds it until
+     pressed again. */
+  (function studioReel() {
+    var video = $(".studio__reel");
+    if (!video) return;
+    var holder = video.closest(".studio__portrait") || video;
+    var hovering = false, held = false;
+    function sync() {
+      if (hovering || held) { video.pause(); return; }
+      var p = video.play();
+      if (p && p.catch) p.catch(function () {});   // autoplay can be refused; nothing to do
+    }
+    holder.addEventListener("pointerenter", function (e) { if (e.pointerType === "mouse") { hovering = true; sync(); } });
+    holder.addEventListener("pointerleave", function (e) { if (e.pointerType === "mouse") { hovering = false; sync(); } });
+    holder.addEventListener("pointerup", function (e) { if (e.pointerType !== "mouse") { held = !held; sync(); } });
+    document.addEventListener("keydown", function (e) {
+      if (e.key !== " " || e.metaKey || e.ctrlKey || e.altKey) return;
+      var t = e.target;
+      // Space still activates a focused link/button and types in fields
+      if (t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA" || t.tagName === "BUTTON" || t.tagName === "A" || t.isContentEditable)) return;
+      e.preventDefault();                 // don't scroll the page
+      held = !held;
+      if (!held) hovering = false;        // second press resumes even if the pointer is still over it
+      sync();
     });
   })();
 

@@ -28,7 +28,8 @@
   --font-serif:   "EB Garamond", Georgia, "Times New Roman", serif;
   --font-mono:    ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
 
-  --rail: 220px;
+  --rail: 220px;   /* legacy sidebar width (scroll-version) */
+  --bar: 60px;     /* height of the top bar on every page */
   --gutter: clamp(1.25rem, 5vw, 5.5rem);
   --maxw: 1180px;
 
@@ -260,6 +261,106 @@ kbd {
 .menu-btn[aria-expanded="true"] span:first-child { transform: translateY(3.5px) rotate(45deg); }
 .menu-btn[aria-expanded="true"] span:last-child { transform: translateY(-3.5px) rotate(-45deg); }
 
+/* ============================================================
+   TOP BAR — every page. Its own light grey so it never reads as
+   part of the page; numbered links keep the chapter sequence.
+   ============================================================ */
+.sitebar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 55;   /* above the mobile menu so its close button stays reachable */
+  height: var(--bar);
+  display: flex; align-items: center; justify-content: space-between; gap: 2rem;
+  padding: 0 var(--gutter);
+  background: var(--rail-bg); color: var(--ink);
+  border-bottom: 1px solid rgba(10,10,10,.14);
+}
+.sitebar__brand {
+  display: inline-flex; align-items: center; gap: .6rem; white-space: nowrap;
+  font-family: var(--font-display); font-weight: 600; font-size: 1rem; letter-spacing: -.01em;
+}
+.sitebar__mark { width: 28px; height: auto; opacity: .9; flex: none; }
+.sitebar__list { display: flex; align-items: center; gap: clamp(.9rem, 1.5vw, 1.6rem); list-style: none; padding: 0; }
+.sitebar__link {
+  position: relative; display: inline-flex; align-items: baseline; gap: .4rem;
+  padding: .4rem 0; white-space: nowrap;
+  font-family: var(--font-display); font-size: .82rem; color: #5f5e58;
+  transition: color .2s var(--ease);
+}
+.sitebar__num { font-family: var(--font-mono); font-size: .62rem; color: #9a9890; transition: color .2s var(--ease); }
+.sitebar__link::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: -2px; height: 2px;
+  background: var(--accent); transform: scaleX(0); transform-origin: left;
+  transition: transform .25s var(--ease);
+}
+.sitebar__link:hover, .sitebar__link.is-active { color: var(--ink); }
+.sitebar__link:hover::after, .sitebar__link.is-active::after { transform: scaleX(1); }
+.sitebar__link.is-active .sitebar__num { color: var(--accent); }
+.sitebar .menu-btn { display: none; }
+@media (max-width: 1100px) {
+  .sitebar__nav { display: none; }
+  .sitebar .menu-btn { display: grid; }
+}
+.overlay__item.is-active { color: var(--accent-soft); }
+
+/* ============================================================
+   PAGER — previous / next chapter at the foot of every page, so the
+   site still reads in sequence (← / → keys do the same). Built as a
+   twin of the top bar: same height, gutter, grey, and type size.
+   ============================================================ */
+.pager {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 45;   /* always on screen, like the top bar (below the phone menu) */
+  display: flex; justify-content: space-between; align-items: stretch;
+  height: var(--bar); padding: 0 var(--gutter);
+  background: var(--rail-bg); color: var(--ink);
+  border-top: 1px solid rgba(10,10,10,.14);
+}
+.pager__link {
+  display: inline-flex; align-items: center; gap: .55rem; white-space: nowrap;
+  font-family: var(--font-display); font-size: .82rem; color: #5f5e58;
+  transition: color .2s var(--ease);
+}
+.pager__dir { font-family: var(--font-mono); font-size: .62rem; letter-spacing: .14em; text-transform: uppercase; color: #9a9890; }
+.pager__name { display: inline-flex; align-items: baseline; gap: .4rem; }
+.pager__num { font-family: var(--font-mono); font-size: .62rem; color: var(--accent); }
+.pager__link:hover { color: var(--accent); }
+.pager__link--next { flex-direction: row-reverse; }
+.pager__link--next:only-child { margin-left: auto; }   /* home has no previous page — keep Next on the right */   /* reads “05 Shop  NEXT →” */
+
+/* ============================================================
+   CONTENTS — the home page's index: a compact three-across grid
+   (number · name · one line) rather than full-width rows.
+   ============================================================ */
+.chapter--contents {
+  justify-content: flex-start;
+  padding-top: clamp(2rem, 5vh, 3rem); padding-bottom: clamp(2.5rem, 6vh, 4rem);
+}
+.chapter--contents .chapter__head { margin-bottom: 1rem; }
+.chapter--contents .kicker { margin-bottom: 0; }
+.contents {
+  list-style: none; padding: 0;
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+  column-gap: clamp(1.5rem, 3vw, 2.5rem);
+}
+.contents__row {
+  display: grid; grid-template-columns: 2.2rem minmax(0, 1fr) 1rem;
+  grid-template-areas: "num name arrow" "num desc arrow";
+  align-items: baseline; row-gap: .15rem;
+  padding: .85rem .2rem; border-top: 1px solid var(--line);
+  transition: padding-left .3s var(--ease);
+}
+.contents__num { grid-area: num; font-family: var(--font-mono); font-size: .7rem; color: var(--accent); }
+.contents__name {
+  grid-area: name; font-family: var(--font-display); font-weight: 500;
+  font-size: clamp(1.05rem, 1.4vw, 1.25rem); letter-spacing: -.01em;
+  transition: color .2s var(--ease);
+}
+.contents__desc { grid-area: desc; font-family: var(--font-serif); font-style: italic; font-size: .95rem; color: var(--muted); }
+.contents__arrow { grid-area: arrow; align-self: center; color: var(--accent); opacity: .6; transition: transform .3s var(--ease), opacity .2s; }
+.contents__row:hover { padding-left: .5rem; }
+.contents__row:hover .contents__name { color: var(--accent); }
+.contents__row:hover .contents__arrow { opacity: 1; transform: translateX(3px); }
+@media (max-width: 1024px) { .contents { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 600px)  { .contents { grid-template-columns: 1fr; } }
+
 .overlay {
   position: fixed; inset: 0; z-index: 50;
   background: var(--ink); color: var(--paper);
@@ -289,6 +390,11 @@ kbd {
    REEL + CHAPTER SCAFFOLD
    ============================================================ */
 .reel { margin-left: var(--rail); }
+.page { padding-top: var(--bar); padding-bottom: var(--bar); }   /* clear the fixed top and bottom bars */
+/* inner pages fill the window so the bottom bar always sits at the very bottom,
+   even when a page's content is shorter than the screen */
+.page:not(.page--home) { min-height: 100vh; display: flex; flex-direction: column; }
+.page:not(.page--home) > .chapter { flex: 1 0 auto; }
 
 .chapter {
   position: relative;
@@ -339,7 +445,7 @@ kbd {
 }
 .chapter--dark {
   --bg: var(--dark); --fg: var(--paper); --accent: var(--accent-soft);
-  --muted: #a5a5a0; --line: rgba(240,240,236,.15);
+  --muted: #cdcdc8; --line: rgba(240,240,236,.18);   /* lighter secondary text — grey on black read too faint */
   --frame-a: #232323; --frame-b: #323232;
 }
 .chapter--film { --bg: var(--dark-2); }
@@ -500,6 +606,8 @@ kbd {
   font-family: var(--font-mono); font-size: .64rem; letter-spacing: .34em;
   text-transform: uppercase; color: var(--accent); opacity: .6;
   pointer-events: none;
+  white-space: nowrap;
+  width: auto; max-width: none; margin: 0;   /* opt out of the chapter's full-width child rule, which parked it on top of the title */
 }
 @media (max-width: 1024px) { .vlabel { display: none; } }
 
@@ -516,7 +624,34 @@ kbd {
 /* ============================================================
    00 · PROLOGUE
    ============================================================ */
-.chapter--prologue { justify-content: flex-end; min-height: 86vh; }  /* the title screen keeps most of a screen; other chapters size to content */
+.chapter--prologue { justify-content: flex-end; min-height: 68vh; }
+/* HOME — one white page: the name on the left, the contents beside it on the right */
+.page--home {
+  --bg: #FFFFFF;
+  min-height: 100vh; background: #FFFFFF;
+  display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); align-items: center;
+  grid-template-rows: 1fr auto;   /* name + contents, then the footer bar pinned to the bottom */
+}
+.page--home > .pager { grid-column: 1 / -1; align-self: end; }
+.page--home > .chapter {
+  --bg: #FFFFFF; background: #FFFFFF; border-bottom: 0;
+  min-height: 0; padding-top: clamp(2.5rem, 7vh, 4.5rem); padding-bottom: clamp(2.5rem, 7vh, 4.5rem);
+}
+.page--home > .chapter::after { content: none; }            /* no seam tick between the two halves */
+.page--home .chapter--prologue { justify-content: center; padding-right: clamp(1rem, 2vw, 2rem); }
+.page--home .chapter--contents { padding-left: clamp(1rem, 2vw, 2rem); }
+.page--home .prologue__title { margin: 0; font-size: clamp(2.6rem, 6vw, 5rem); }
+.page--home .vlabel,
+.page--home .chapter--prologue .sq,
+.page--home .chapter--prologue .thread,
+.page--home .chapter--prologue .techline { display: none; }   /* just the name — the marks landed on top of it in the half-width column */
+@media (max-width: 1280px) { .page--home .contents { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 900px) {
+  .page--home { grid-template-columns: 1fr; grid-template-rows: auto auto 1fr; align-items: start; }
+  .page--home .chapter--prologue { padding-bottom: 1rem; padding-right: var(--gutter); }
+  .page--home .chapter--contents { padding-left: var(--gutter); padding-top: 1rem; }
+}
+@media (max-width: 600px) { .page--home .contents { grid-template-columns: 1fr; } }  /* the title screen keeps most of a screen; other chapters size to content */
 .prologue__grid { position: relative; z-index: 1; }
 
 /* prologue composed field — scattered marks, asymmetric, lots of air */
@@ -1269,11 +1404,6 @@ kbd {
    RESPONSIVE
    ============================================================ */
 @media (max-width: 1024px) {
-  :root { --rail: 0px; }
-  .rail { display: none; }
-  .topbar { display: flex; }
-  .reel { margin-left: 0; }
-  .chapter { padding-top: clamp(5rem, 14vh, 7rem); }
 
   .feature { grid-template-columns: 1fr; }
   .feature__art { max-width: 380px; }
@@ -1331,3 +1461,126 @@ kbd {
   .marquee__track { animation: none; }
   .intro { display: none; }
 }
+
+/* ============================================================
+   INNER PAGES — one chapter per page. The scroll-era chapter heads
+   were built to fill a screen; on their own page they pushed the
+   content below the fold and left the right half empty. Here the
+   head becomes a compact two-column band (title | intro) and the
+   chapter starts right under the top bar.
+   ============================================================ */
+.page:not(.page--home) .chapter {
+  justify-content: flex-start;
+  padding-top: clamp(1.8rem, 4.5vh, 3rem);
+  padding-bottom: clamp(2.4rem, 6vh, 4rem);
+}
+.page:not(.page--home) .chapter::before {   /* faded chapter number — smaller so it doesn't crowd the head */
+  font-size: clamp(3.5rem, 9vw, 7rem); top: clamp(.6rem, 2vw, 1.4rem);
+}
+.page:not(.page--home) .chapter__head {
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  column-gap: clamp(2rem, 5vw, 4.5rem); align-items: end; text-align: left;
+  margin-bottom: clamp(1.6rem, 3vw, 2.4rem);
+  padding-bottom: clamp(1.1rem, 2.2vw, 1.6rem); border-bottom: 1px solid var(--line);
+}
+.page:not(.page--home) .chapter__head > .kicker { grid-column: 1 / -1; margin-bottom: .8rem; }
+.page:not(.page--home) .chapter__head > .chapter__title { grid-column: 1; grid-row: 2 / span 3; align-self: end; }
+.page:not(.page--home) .chapter__head > :not(.kicker):not(.chapter__title) { grid-column: 2; justify-self: start; }
+.page:not(.page--home) .chapter__title { font-size: clamp(1.8rem, 3.4vw, 2.8rem); }
+.page:not(.page--home) .chapter__lede {
+  margin-top: 0; max-width: 56ch; font-size: clamp(.98rem, 1.15vw, 1.06rem);
+}
+.page:not(.page--home) .headcta { margin-top: 1rem; }
+.page:not(.page--home) .words__subtitle { margin-top: 0; }
+.page:not(.page--home) .studio__mark { margin-top: 0; width: clamp(84px, 9vw, 120px); }
+
+/* Score — the reel sits beside its list instead of above it, so the whole
+   video fits on screen and the right half of the page is used. */
+@media (min-width: 1025px) {
+  .score { grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); }
+  .score__reel { max-width: none; }
+}
+@media (max-width: 760px) {
+  .page:not(.page--home) .chapter__head { grid-template-columns: 1fr; }
+  .page:not(.page--home) .chapter__head > * { grid-column: 1 !important; grid-row: auto !important; }
+  .page:not(.page--home) .chapter__head > :not(.kicker):not(.chapter__title) { margin-top: .9rem; }
+}
+
+/* Work lists — tighter rows on the inner pages (the scroll-era rows were
+   sized to fill a full-screen chapter). Desktop/tablet only: phones keep
+   their stacked year / title / role rows. */
+.page:not(.page--home) .workrow { padding: .95rem .4rem; }
+.page:not(.page--home) .workrow__title { font-size: clamp(1rem, 1.45vw, 1.2rem); }
+@media (min-width: 681px) {
+  .page:not(.page--home) .workrow { grid-template-columns: 3.6rem minmax(0, 1fr) minmax(0, 18rem) 1.2rem; }
+  /* poems are number + title only — keep their three-column row */
+  .page:not(.page--home) .worklist--poems .workrow { grid-template-columns: 2.8rem minmax(0, 1fr) 1.4rem; }
+}
+
+/* Music — the featured release was sized for a full-screen chapter */
+.page:not(.page--home) .feature { grid-template-columns: minmax(0, 400px) minmax(0, 1fr); margin-bottom: clamp(2rem, 4vw, 3rem); }
+@media (max-width: 1024px) { .page:not(.page--home) .feature { grid-template-columns: 1fr; } }
+
+/* Words — the open book, scaled so the whole spread fits on a laptop screen */
+.page:not(.page--home) .book { max-width: 900px; margin-top: 0; }
+.page:not(.page--home) .book__page { min-height: clamp(320px, 34vw, 400px); }
+@media (min-width: 1025px) {
+  /* Score's list sits in a side column: role tucks under the title so titles don't wrap word-by-word */
+  .page:not(.page--home) .worklist--score .workrow {
+    grid-template-columns: 3.2rem minmax(0, 1fr) 1.2rem;
+    grid-template-areas: "year title arrow" "year role arrow";
+    row-gap: .3rem; padding: .85rem .4rem;
+  }
+  .page:not(.page--home) .worklist--score .workrow__year  { grid-area: year; align-self: start; padding-top: .2rem; }
+  .page:not(.page--home) .worklist--score .workrow__title { grid-area: title; }
+  .page:not(.page--home) .worklist--score .workrow__role  { grid-area: role; text-align: left; }
+  .page:not(.page--home) .worklist--score .workrow__arrow { grid-area: arrow; }
+}
+
+/* Photos — a three-across grid with a closing banner. The scroll-era mix of
+   half-width and full-width tiles showed about one photograph per screen. */
+@media (min-width: 681px) {
+  .page:not(.page--home) .gallery { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .page:not(.page--home) .shot,
+  .page:not(.page--home) .shot--half,
+  .page:not(.page--home) .shot--feature { grid-column: span 1; aspect-ratio: 3 / 2; }
+  .page:not(.page--home) .shot--feature:last-child { grid-column: 1 / -1; aspect-ratio: 3 / 1; }
+}
+
+/* Business / Science — résumé entries two-up so the right half of the page
+   isn't empty; each entry stacks its dates above the role. */
+@media (min-width: 1025px) {
+  .page:not(.page--home) .cv {
+    display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: clamp(2rem, 4vw, 3.5rem); border-top: 0;
+  }
+  .page:not(.page--home) .cv__row {
+    grid-template-columns: 1fr; gap: .9rem; align-content: start;
+    padding: 1.5rem 0 1.7rem; border-top: 1px solid var(--line); border-bottom: 0;
+  }
+  .page:not(.page--home) .cv__meta { flex-direction: row; align-items: center; gap: 1.1rem; }
+  .page:not(.page--home) .cv__place { padding-left: 0; }
+}
+
+/* Music — head in three parts: title | Full Catalog | intro */
+.page #music .chapter__head { grid-template-columns: minmax(0, 1fr) auto minmax(0, 1.4fr); }
+.page #music .chapter__head > .chapter__title { grid-column: 1; grid-row: 2; }
+.page #music .chapter__head > .headcta { grid-column: 2; grid-row: 2; margin-top: 0; align-self: end; }
+.page #music .chapter__head > .chapter__lede { grid-column: 3; grid-row: 2; align-self: end; }
+@media (max-width: 760px) {
+  .page #music .chapter__head { grid-template-columns: 1fr; }
+  .page #music .chapter__head > .chapter__lede { grid-row: 3; margin-top: .9rem; }
+  .page #music .chapter__head > .headcta { grid-row: 4; margin-top: 1rem; }
+}
+
+/* Music — the latest release reads as a highlight, not a landing */
+.page #music .feature {
+  grid-template-columns: 200px minmax(0, 1fr); gap: clamp(1.2rem, 2.4vw, 2rem);
+  align-items: center; max-width: 820px; margin-bottom: clamp(1.6rem, 3vw, 2.4rem);
+}
+.page #music .feature__eyebrow { margin-bottom: .45rem; }
+.page #music .feature__title { font-size: clamp(1.25rem, 1.9vw, 1.6rem); }
+.page #music .feature__sub { margin-top: .35rem; font-size: .85rem; }
+.page #music .feature__desc { margin-top: .7rem; max-width: 60ch; font-size: .98rem; }
+.page #music .linkrow { margin-top: .9rem; }
+@media (max-width: 600px) { .page #music .feature { grid-template-columns: 120px minmax(0, 1fr); align-items: start; } }
