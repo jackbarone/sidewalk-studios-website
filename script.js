@@ -110,21 +110,22 @@
     });
   })();
 
-  /* ---------- Studio reel: hover, Space, or tap to stop on a photo ----------
+  /* ---------- Studio reel + home film: hover, Space, or tap to pause ----------
      The reel is hard cuts (a new photo every ~0.1s, no crossfades), so pausing
      at any moment freezes on one clean picture. Hover pauses only while the
      pointer is over it; Space (and a tap on touch screens) holds it until
      pressed again. */
   (function studioReel() {
-    var video = $(".studio__reel");
+    var video = $(".studio__reel, .home__video");
     if (!video) return;
-    var holder = video.closest(".studio__portrait") || video;
-    var hovering = false, held = false;
+    var holder = video.closest(".studio__portrait, .home__film") || video;
+    var hovering = false, held = reduceMotion;   // reduced-motion visitors get a still frame until they press play
     function sync() {
       if (hovering || held) { video.pause(); return; }
       var p = video.play();
       if (p && p.catch) p.catch(function () {});   // autoplay can be refused; nothing to do
     }
+    if (held) video.pause();
     holder.addEventListener("pointerenter", function (e) { if (e.pointerType === "mouse") { hovering = true; sync(); } });
     holder.addEventListener("pointerleave", function (e) { if (e.pointerType === "mouse") { hovering = false; sync(); } });
     holder.addEventListener("pointerup", function (e) { if (e.pointerType !== "mouse") { held = !held; sync(); } });
