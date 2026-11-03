@@ -20,3 +20,6 @@ _backup-*/
 
 # Large / unused source media (site ships the optimized MP4)
 *.mov
+
+# Local design previews — never published
+_preview/
