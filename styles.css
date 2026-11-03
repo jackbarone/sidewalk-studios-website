@@ -1737,3 +1737,25 @@ kbd {
   #music .chapter__head { margin-bottom: clamp(1.6rem, 4.6vh, 3rem); padding-bottom: clamp(1rem, 2vh, 1.4rem); }
   #music .music .worklist__head { margin-bottom: .4rem; }
 }
+
+/* ============================================================
+   WRITING — set entirely in EB Garamond, Jack's writing face:
+   the open book on the Writing page and every reader page
+   (poems, query letter). The one exception is a concrete poem
+   ("Requirements"), whose shape is built from fixed-width spacing
+   and falls apart in a proportional face.
+   ============================================================ */
+.book, .book *,
+.reader__wrap, .reader__wrap * { font-family: var(--font-serif); }
+.book .poem--concrete pre,
+.reader__wrap .poem--concrete pre { font-family: var(--font-mono); }   /* stays typewriter — its shape is built from fixed-width spacing */
+/* Garamond runs smaller than the mono at the same size — rebalance the titles */
+.book .workrow__title { font-size: clamp(1.2rem, 1.7vw, 1.45rem); letter-spacing: 0; font-weight: 500; }
+.book .workrow__year { font-size: .95rem; letter-spacing: .02em; }
+.book .words__sectitle, .reader__wrap .reader__kicker { font-size: .86rem; letter-spacing: .2em; font-weight: 600; }
+.book .inkbtn { font-size: .78em; letter-spacing: .16em; font-weight: 500; }
+.reader__wrap .reader__title { letter-spacing: 0; font-weight: 500; }
+.reader__wrap .reader__back, .reader__wrap .reader__sign { font-size: .82rem; letter-spacing: .16em; }
+/* the poetry note had no size of its own and fell back to body text (15.3px) —
+   match the novel copy on the facing page */
+.book .book__note { font-size: clamp(1rem, 1.25vw, 1.12rem); line-height: 1.6; margin-bottom: .6rem; }
